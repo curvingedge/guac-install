@@ -275,12 +275,12 @@ else
     LIBJAVA=""
 fi
 
-# tomcat9 is the latest version
+# tomcat10 is the latest version
 # tomcat8.0 is end of life, but tomcat8.5 is current
 # fallback is tomcat7
-if [[ $( apt-cache show tomcat9 2> /dev/null | egrep "Version: 9" | wc -l ) -gt 0 ]]; then
-    echo -e "${BLUE}Found tomcat9 package...${NC}"
-    TOMCAT="tomcat9"
+if [[ $( apt-cache show tomcat10 2> /dev/null | egrep "Version: 10" | wc -l ) -gt 0 ]]; then
+    echo -e "${BLUE}Found tomcat10 package...${NC}"
+    TOMCAT="tomcat10"
 elif [[ $( apt-cache show tomcat8 2> /dev/null | egrep "Version: 8.[5-9]" | wc -l ) -gt 0 ]]; then
     echo -e "${BLUE}Found tomcat8.5+ package...${NC}"
     TOMCAT="tomcat8"
@@ -303,8 +303,8 @@ export DEBIAN_FRONTEND=noninteractive
 
 # Required packages
 apt-get -y install build-essential libcairo2-dev ${JPEGTURBO} ${LIBPNG} libossp-uuid-dev libavcodec-dev libavformat-dev libavutil-dev \
-libswscale-dev freerdp2-dev libpango1.0-dev libssh2-1-dev libtelnet-dev libvncserver-dev libpulse-dev libssl-dev \
-libvorbis-dev libwebp-dev libwebsockets-dev freerdp2-x11 libtool-bin ghostscript dpkg-dev wget crudini libc-bin \
+libswscale-dev freerdp3-dev libpango1.0-dev libssh2-1-dev libtelnet-dev libvncserver-dev libpulse-dev libssl-dev \
+libvorbis-dev libwebp-dev libwebsockets-dev freerdp3-x11 libtool-bin ghostscript dpkg-dev wget crudini libc-bin \
 ${MYSQL} ${LIBJAVA} ${TOMCAT} &>> ${LOG}
 
 # If apt fails to run completely the rest of this isn't going to work...
