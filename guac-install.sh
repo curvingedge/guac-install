@@ -253,6 +253,26 @@ else
     exit 1
 fi
 
+# Ubuntu 25.10 compatibility
+# Add Ubuntu 22.04 (Jammy) repositories for legacy packages
+
+if [[ "${NAME}" == "Ubuntu" ]] && dpkg --compare-versions "${VERSION_ID}" ge "25.04"; then
+    echo -e "${YELLOW}Adding Ubuntu 22.04 (Jammy) repositories...${NC}"
+
+    cat > /etc/apt/sources.list.d/jammy-guac.list <<EOF
+deb http://archive.ubuntu.com/ubuntu jammy main universe multiverse restricted
+deb http://archive.ubuntu.com/ubuntu jammy-updates main universe multiverse restricted
+deb http://security.ubuntu.com/ubuntu jammy-security main universe multiverse restricted
+EOF
+
+    cat > /etc/apt/preferences.d/jammy-pin <<EOF
+Package: *
+Pin: release n=jammy
+Pin-Priority: 100
+EOF
+
+fi
+
 # Update apt so we can search apt-cache for newest Tomcat version supported & libmariadb-java/libmysql-java
 echo -e "${BLUE}Updating apt...${NC}"
 apt-get -qq update
@@ -303,8 +323,8 @@ export DEBIAN_FRONTEND=noninteractive
 
 # Required packages
 apt-get -y install build-essential libcairo2-dev ${JPEGTURBO} ${LIBPNG} libossp-uuid-dev libavcodec-dev libavformat-dev libavutil-dev \
-libswscale-dev freerdp3-dev libpango1.0-dev libssh2-1-dev libtelnet-dev libvncserver-dev libpulse-dev libssl-dev \
-libvorbis-dev libwebp-dev libwebsockets-dev freerdp3-x11 libtool-bin ghostscript dpkg-dev wget crudini libc-bin \
+libswscale-dev freerdp2-dev libpango1.0-dev libssh2-1-dev libtelnet-dev libvncserver-dev libpulse-dev libssl-dev \
+libvorbis-dev libwebp-dev libwebsockets-dev freerdp2-x11 libtool-bin ghostscript dpkg-dev wget crudini libc-bin \
 ${MYSQL} ${LIBJAVA} ${TOMCAT} &>> ${LOG}
 
 # If apt fails to run completely the rest of this isn't going to work...
