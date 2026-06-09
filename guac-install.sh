@@ -256,7 +256,10 @@ fi
 # Ubuntu 25.10 compatibility
 # Add Ubuntu 22.04 (Jammy) repositories for legacy packages
 
-if [[ "${NAME}" == "Ubuntu" ]] && dpkg --compare-versions "${VERSION_ID}" ge "25.04"; then
+if [[ "${NAME}" == "Ubuntu" ]] && \
+   dpkg --compare-versions "${VERSION_ID}" ge "25.04" && \
+   [[ ! -f /etc/apt/sources.list.d/jammy-guac.list ]]; then
+   
     echo -e "${YELLOW}Adding Ubuntu 22.04 (Jammy) repositories...${NC}"
 
     cat > /etc/apt/sources.list.d/jammy-guac.list <<EOF
